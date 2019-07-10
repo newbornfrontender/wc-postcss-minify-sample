@@ -22,3 +22,25 @@ export class WcApp extends LitElement {
     `;
   }
 }
+
+// export class WcApp extends LitElement {
+//   static get styles() {
+//     return css`
+//       h1 {
+//         color: rgb(100% 0% 0% / 90%);
+
+//         & span {
+//           color: blue;
+//         }
+//       }
+//     `;
+//   }
+
+//   render() {
+//     return html`
+//       <h1>hello <span>BRO</span></h1>
+//     `;
+//   }
+// }
+
+// window.customElements.define('wc-app', WcApp);

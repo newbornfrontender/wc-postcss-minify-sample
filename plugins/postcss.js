@@ -1,38 +1,58 @@
-import { walk } from 'estree-walker';
-import { generate } from 'astring';
+// import { walk } from 'estree-walker';
+// import { generate } from 'astring';
+// import postcss from 'postcss';
+// import postcssrc from 'postcss-load-config';
+
+// import deasync from './utils/deasync';
+
+// export default (ctx) => ({
+//   name: 'rollup-plugin-postcss',
+
+//   transform(code) {
+//     const ast = this.parse(code);
+
+//     walk(ast, {
+//       enter(node) {
+//         if (node.type === 'TaggedTemplateExpression' && node.tag.name === 'css') {
+//           walk(node.quasi.quasis, {
+//             enter(node) {
+//               if (node.type === 'TemplateElement') {
+//                 const { raw } = node.value;
+//                 const { plugins, options } = deasync(postcssrc(ctx));
+//                 const { css } = deasync(
+//                   postcss(plugins).process(raw, { ...options, from: undefined }),
+//                 );
+
+//                 node.value.raw = css;
+//               }
+//             },
+//           });
+//         }
+//       },
+//     });
+
+//     return {
+//       code: generate(ast),
+//       map: { mappings: '' },
+//     };
+//   },
+// });
+
+// =============================================================================
+
 import postcss from 'postcss';
 import postcssrc from 'postcss-load-config';
-
-import deasync from './utils/deasync';
+import syntax from 'postcss-syntax';
 
 export default (ctx) => ({
   name: 'rollup-plugin-postcss',
 
-  transform(code) {
-    const ast = this.parse(code);
-
-    walk(ast, {
-      enter(node) {
-        if (node.type === 'TaggedTemplateExpression' && node.tag.name === 'css') {
-          walk(node.quasi.quasis, {
-            enter(node) {
-              if (node.type === 'TemplateElement') {
-                const { raw } = node.value;
-                const { plugins, options } = deasync(postcssrc(ctx));
-                const { css } = deasync(
-                  postcss(plugins).process(raw, { ...options, from: undefined }),
-                );
-
-                node.value.raw = css;
-              }
-            },
-          });
-        }
-      },
-    });
+  async transform(code, id) {
+    const { plugins, options } = await postcssrc(ctx);
+    const { css } = await postcss(plugins).process(code, { ...options, syntax: syntax, from: id });
 
     return {
-      code: generate(ast),
+      code: css,
       map: { mappings: '' },
     };
   },
