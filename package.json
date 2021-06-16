@@ -33,7 +33,7 @@
     "husky": "^1.0.0",
     "lint-staged": "^8.0.0",
     "owc-dev-server": "^1.0.0",
-    "postcss": "^7.0.17",
+    "postcss": "^7.0.36",
     "postcss-load-config": "^2.1.0",
     "postcss-preset-env": "^6.6.0",
     "rimraf": "^2.6.3",
